@@ -590,5 +590,5 @@ class AuthorNotifierNotifications {
 		return $post_types;
 	}
 }
-
+ 
 ?>
