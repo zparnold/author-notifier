@@ -348,7 +348,7 @@ class AuthorNotifier {
 		// Default values
 
 		if ($settings === false) {
-			$settings = self::default_data();
+			$settings = self::default_data(); 
 		}
 
 		$settings['message'] = array(
