@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Post Status Notifications
-plugin URI: http://www.99robots.com/plugin/post-status-notifications
-Description: Send post status notifications by email to Administrators and Contributors when posts are submitted for review or published. Great for multi-author sites to improve editorial workflow.
+Plugin Name: Post Status s
+plugin URI: http://www.99robots.com/plugin/post-status-s
+Description: Send post status s by email to Administrators and Contributors when posts are submitted for review or published. Great for multi-author sites to improve editorial workflow.
 version: 3.0.2
 Author: 99 Robots
 Author URI: https://www.99robots.com
@@ -15,94 +15,94 @@ License: GPL2
 
 /* Plugin Name */
 
-if (!defined('AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_NAME'))
-    define('AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
+if (!defined('AUTHOR_NOTIFIER_PLUGIN_NAME'))
+    define('AUTHOR_NOTIFIER_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
 
 /* Plugin directory */
 
-if (!defined('AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_DIR'))
-    define('AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_DIR', plugin_dir_path(__FILE__) );
+if (!defined('AUTHOR_NOTIFIER_PLUGIN_DIR'))
+    define('AUTHOR_NOTIFIER_PLUGIN_DIR', plugin_dir_path(__FILE__) );
 
 /* Plugin url */
 
-if (!defined('AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_URL'))
-    define('AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_URL', plugins_url() . '/' . AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_NAME);
+if (!defined('AUTHOR_NOTIFIER_PLUGIN_URL'))
+    define('AUTHOR_NOTIFIER_PLUGIN_URL', plugins_url() . '/' . AUTHOR_NOTIFIER_PLUGIN_NAME);
 
 /* Plugin verison */
 
-if (!defined('AUTHOR_NOTIFIER_NOTIFICATION_VERSION_NUM'))
-    define('AUTHOR_NOTIFIER_NOTIFICATION_VERSION_NUM', '3.0.2');
+if (!defined('AUTHOR_NOTIFIER_VERSION_NUM'))
+    define('AUTHOR_NOTIFIER_VERSION_NUM', '3.0.2');
 
 
 /**
  * Activatation / Deactivation
  */
 
-register_activation_hook( __FILE__, array('AuthorNotifierNotifications', 'register_activation'));
+register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation'));
 
 /**
  * Hooks / Filter
  */
 
-add_action('transition_post_status', array('AuthorNotifierNotifications', 'wpsite_send_email'), 10, 3 );
-add_action('init', array('AuthorNotifierNotifications', 'load_textdoamin'));
-add_action('admin_menu', array('AuthorNotifierNotifications', 'wpsite_admin_menu'));
+add_action('transition_post_status', array('AuthorNotifier', 'wpsite_send_email'), 10, 3 );
+add_action('init', array('AuthorNotifier', 'load_textdoamin'));
+add_action('admin_menu', array('AuthorNotifier', 'wpsite_admin_menu'));
 
 $plugin = plugin_basename(__FILE__);
-add_filter("plugin_action_links_$plugin", array('AuthorNotifierNotifications', 'author_notifier_notification_settings_link'));
+add_filter("plugin_action_links_$plugin", array('AuthorNotifier', 'author_notifier_settings_link'));
 
 /**
- *  AuthorNotifierNotifications main class
+ *  AuthorNotifier main class
  *
  * @since 1.0.0
  * @using Wordpress 3.8
  */
 
-class AuthorNotifierNotifications {
+class AuthorNotifier {
 
 	/**
 	 * version_setting_name
 	 *
-	 * (default value: 'author_notifier_notification_verison')
+	 * (default value: 'author_notifier_verison')
 	 *
 	 * @var string
 	 * @access private
 	 * @static
 	 */
-	private static $version_setting_name = 'author_notifier_notification_verison';
+	private static $version_setting_name = 'author_notifier_version';
 
 	/**
 	 * text_domain
 	 *
-	 * (default value: 'wpsite-post-status-notification')
+	 * (default value: 'author-notifier')
 	 *
 	 * @var string
 	 * @access private
 	 * @static
 	 */
-	private static $text_domain = 'wpsite-post-status-notification';
+	private static $text_domain = 'author-notifier';
 
 	/**
 	 * settings_page
 	 *
-	 * (default value: 'wpsite-post-status-notification-admin-settings')
+	 * (default value: 'author-notifier-admin-settings')
 	 *
 	 * @var string
 	 * @access private
 	 * @static
 	 */
-	private static $settings_page = 'wpsite-post-status-notification-admin-settings';
+	private static $settings_page = 'author-notifier-admin-settings';
 
 	/**
 	 * web_page
 	 *
-	 * (default value: 'http://www.99robots.com/plugin/post-status-notifications')
+	 * (default value: 'https://github.com/zparnold/author-notifier')
 	 *
 	 * @var string
 	 * @access private
 	 * @static
 	 */
-	private static $web_page = 'http://www.99robots.com/plugin/post-status-notifications';
+	private static $web_page = 'https://github.com/zparnold/author-notifier';
 
 	/**
 	 * facebook_share_link
@@ -188,7 +188,7 @@ class AuthorNotifierNotifications {
 	 * @since 1.0.0
 	 */
 	static function load_textdoamin() {
-		load_plugin_textdomain(self::$text_domain, false, AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_DIR . '/languages');
+		load_plugin_textdomain(self::$text_domain, false, AUTHOR_NOTIFIER_PLUGIN_DIR . '/languages');
 	}
 
 	/**
@@ -201,9 +201,9 @@ class AuthorNotifierNotifications {
 		/* Check if multisite, if so then save as site option */
 
 		if (is_multisite()) {
-			add_site_option(self::$version_setting_name, AUTHOR_NOTIFIER_NOTIFICATION_VERSION_NUM);
+			add_site_option(self::$version_setting_name, AUTHOR_NOTIFIER_VERSION_NUM);
 		} else {
-			add_option(self::$version_setting_name, AUTHOR_NOTIFIER_NOTIFICATION_VERSION_NUM);
+			add_option(self::$version_setting_name, AUTHOR_NOTIFIER_VERSION_NUM);
 		}
 	}
 
@@ -212,7 +212,7 @@ class AuthorNotifierNotifications {
 	 *
 	 * @since 1.0.0
 	 */
-	static function author_notifier_notification_settings_link($links) {
+	static function author_notifier_settings_link($links) {
 		$settings_link = '<a href="options-general.php?page=' . self::$settings_page . '">Settings</a>';
 		array_unshift($links, $settings_link);
 		return $links;
@@ -233,9 +233,9 @@ class AuthorNotifierNotifications {
 	    	__('Author Notifications', self::$text_domain), 						// Menu name
 	    	'manage_options', 															// Capabilities
 	    	self::$settings_page, 														// slug
-	    	array('AuthorNotifierNotifications', 'wpsite_admin_menu_info_callback')	// Callback function
+	    	array('AuthorNotifier', 'wpsite_admin_menu_info_callback')	// Callback function
 	    );
-	    add_action("admin_print_scripts-$settings_page_load", array('AuthorNotifierNotifications', 'inline_scripts_admin'));
+	    add_action("admin_print_scripts-$settings_page_load", array('AuthorNotifier', 'inline_scripts_admin'));
 	}
 
 	/**
@@ -245,10 +245,10 @@ class AuthorNotifierNotifications {
 	 */
 	static function inline_scripts_admin() {
 
-		wp_enqueue_style('author_notifier_notifications_settings_css', AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_URL . '/css/settings.css');
-		wp_enqueue_style('author_notifier_notifications_bootstrap_css', AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_URL . '/css/nnr-bootstrap.min.css');
+		wp_enqueue_style('author_notifier_settings_css', AUTHOR_NOTIFIER_PLUGIN_URL . '/css/settings.css');
+		wp_enqueue_style('author_notifier_bootstrap_css', AUTHOR_NOTIFIER_PLUGIN_URL . '/css/nnr-bootstrap.min.css');
 
-		wp_enqueue_script('author_notifier_notifications_bootstrap_js', AUTHOR_NOTIFIER_NOTIFICATION_PLUGIN_URL . '/js/bootstrap.min.js', array('jquery'));
+		wp_enqueue_script('author_notifier_bootstrap_js', AUTHOR_NOTIFIER_PLUGIN_URL . '/js/bootstrap.min.js', array('jquery'));
 	}
 
 	/**
@@ -262,7 +262,7 @@ class AuthorNotifierNotifications {
 
 		$post_types = self::get_post_types();
 
-		$settings = get_option('author_notifier_notifications_settings');
+		$settings = get_option('author_notifier_settings');
 
 		// Default values
 
@@ -272,40 +272,40 @@ class AuthorNotifierNotifications {
 
 		// Save data and check nonce
 
-		if (isset($_POST['submit']) && check_admin_referer('author_notifier_notifications_admin_settings')) {
+		if (isset($_POST['submit']) && check_admin_referer('author_notifier_admin_settings')) {
 
 			// Determine Post Types
 
 			$post_types_array = array();
 
 			foreach ($post_types as $post_type) {
-				if (isset($_POST['author_notifier_notifications_settings_post_types_' . $post_type]) && $_POST['author_notifier_notifications_settings_post_types_' . $post_type])
+				if (isset($_POST['author_notifier_settings_post_types_' . $post_type]) && $_POST['author_notifier_settings_post_types_' . $post_type])
 					$post_types_array[] = $post_type;
 			}
 
 			$default_data = self::default_data();
 
 			$settings = array(
-				'publish_notify'	=> $_POST['author_notifier_notifications_settings_publish_notify'],
-				'pending_notify'	=> $_POST['author_notifier_notifications_settings_pending_notify'],
+				'publish_notify'	=> $_POST['author_notifier_settings_publish_notify'],
+				'pending_notify'	=> $_POST['author_notifier_settings_pending_notify'],
 				'post_types'		=> $post_types_array,
 				'message'			=> array(
-					'cc_email'		=> isset($_POST['author_notifier_notifications_settings_message_cc_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_cc_email'])) : $default_data['message']['cc_email'],
-					'bcc_email'		=> isset($_POST['author_notifier_notifications_settings_message_bcc_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_bcc_email'])) : $default_data['message']['bcc_email'],
-					'from_email'	=> isset($_POST['author_notifier_notifications_settings_message_from_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_from_email'])) : $default_data['message']['from_email'],
-					'subject_published'	=> isset($_POST['author_notifier_notifications_settings_message_subject_published']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_subject_published'])) : $default_data['message']['subject_published'],
-					'subject_published_global'	=> isset($_POST['author_notifier_notifications_settings_message_subject_published_global']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_subject_published_global'])) : $default_data['message']['subject_published_global'],
-					'subject_published_contributor'	=> isset($_POST['author_notifier_notifications_settings_message_subject_published_contributor']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_subject_published_contributor'])) :  $default_data['message']['subject_published_contributor'],
-					'subject_pending'	=> isset($_POST['author_notifier_notifications_settings_message_subject_pending']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_subject_pending'])) :  $default_data['message']['subject_pending'],
-					'content_published'	=> isset($_POST['author_notifier_notifications_settings_message_content_published']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_content_published'])) :  $default_data['message']['content_published'],
-					'content_published_global'	=> isset($_POST['author_notifier_notifications_settings_message_content_published_global']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_content_published_global'])) :  $default_data['message']['content_published_global'],
-					'content_published_contributor'	=> isset($_POST['author_notifier_notifications_settings_message_content_published_contributor']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_content_published_contributor'])) :  $default_data['message']['content_published_contributor'],
-					'content_pending'	=> isset($_POST['author_notifier_notifications_settings_message_content_pending']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_notifications_settings_message_content_pending'])) :  $default_data['message']['content_pending'],
+					'cc_email'		=> isset($_POST['author_notifier_settings_message_cc_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_cc_email'])) : $default_data['message']['cc_email'],
+					'bcc_email'		=> isset($_POST['author_notifier_settings_message_bcc_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_bcc_email'])) : $default_data['message']['bcc_email'],
+					'from_email'	=> isset($_POST['author_notifier_settings_message_from_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_from_email'])) : $default_data['message']['from_email'],
+					'subject_published'	=> isset($_POST['author_notifier_settings_message_subject_published']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_published'])) : $default_data['message']['subject_published'],
+					'subject_published_global'	=> isset($_POST['author_notifier_settings_message_subject_published_global']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_published_global'])) : $default_data['message']['subject_published_global'],
+					'subject_published_contributor'	=> isset($_POST['author_notifier_settings_message_subject_published_contributor']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_published_contributor'])) :  $default_data['message']['subject_published_contributor'],
+					'subject_pending'	=> isset($_POST['author_notifier_settings_message_subject_pending']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_pending'])) :  $default_data['message']['subject_pending'],
+					'content_published'	=> isset($_POST['author_notifier_settings_message_content_published']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_published'])) :  $default_data['message']['content_published'],
+					'content_published_global'	=> isset($_POST['author_notifier_settings_message_content_published_global']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_published_global'])) :  $default_data['message']['content_published_global'],
+					'content_published_contributor'	=> isset($_POST['author_notifier_settings_message_content_published_contributor']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_published_contributor'])) :  $default_data['message']['content_published_contributor'],
+					'content_pending'	=> isset($_POST['author_notifier_settings_message_content_pending']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_pending'])) :  $default_data['message']['content_pending'],
 					'share_links'	=> array(
-						'twitter'	=> isset($_POST['author_notifier_notifications_settings_message_share_links_twitter']) && $_POST['author_notifier_notifications_settings_message_share_links_twitter'] ? true : false,
-						'facebook'	=> isset($_POST['author_notifier_notifications_settings_message_share_links_facebook']) && $_POST['author_notifier_notifications_settings_message_share_links_facebook'] ? true : false,
-						'google'	=> isset($_POST['author_notifier_notifications_settings_message_share_links_google']) && $_POST['author_notifier_notifications_settings_message_share_links_google'] ? true : false,
-						'linkedin'	=> isset($_POST['author_notifier_notifications_settings_message_share_links_linkedin']) && $_POST['author_notifier_notifications_settings_message_share_links_linkedin'] ? true : false,
+						'twitter'	=> isset($_POST['author_notifier_settings_message_share_links_twitter']) && $_POST['author_notifier_settings_message_share_links_twitter'] ? true : false,
+						'facebook'	=> isset($_POST['author_notifier_settings_message_share_links_facebook']) && $_POST['author_notifier_settings_message_share_links_facebook'] ? true : false,
+						'google'	=> isset($_POST['author_notifier_settings_message_share_links_google']) && $_POST['author_notifier_settings_message_share_links_google'] ? true : false,
+						'linkedin'	=> isset($_POST['author_notifier_settings_message_share_links_linkedin']) && $_POST['author_notifier_settings_message_share_links_linkedin'] ? true : false,
 					)
 				)
 			);
@@ -330,7 +330,7 @@ class AuthorNotifierNotifications {
 				)
 			);
 
-			update_option('author_notifier_notifications_settings', $settings);
+			update_option('author_notifier_settings', $settings);
 		}
 
 		require('admin/dashboard.php');
@@ -343,7 +343,7 @@ class AuthorNotifierNotifications {
 	 */
 	static function wpsite_send_email( $new_status, $old_status, $post ) {
 
-		$settings = get_option('author_notifier_notifications_settings');
+		$settings = get_option('author_notifier_settings');
 
 		// Default values
 
@@ -590,5 +590,5 @@ class AuthorNotifierNotifications {
 		return $post_types;
 	}
 }
- 
+
 ?>
