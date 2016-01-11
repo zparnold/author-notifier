@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Post Status s
-plugin URI: http://www.99robots.com/plugin/post-status-s
-Description: Send post status s by email to Administrators and Contributors when posts are submitted for review or published. Great for multi-author sites to improve editorial workflow.
-version: 3.0.2
-Author: 99 Robots
-Author URI: https://www.99robots.com
+Plugin Name: Author Notifier
+plugin URI: https://github.com/zparnold/author-notifier
+Description: Send authors an email
+version: 0.1
+Author: Zach Arnold + 99 Robots
+Author URI: https://zacharnold.org
 License: GPL2
 */
 
@@ -348,7 +348,7 @@ class AuthorNotifier {
 		// Default values
 
 		if ($settings === false) {
-			$settings = self::default_data();  
+			$settings = self::default_data();
 		}
 
 		$settings['message'] = array(
