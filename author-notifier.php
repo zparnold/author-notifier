@@ -31,7 +31,7 @@ if (!defined('AUTHOR_NOTIFIER_PLUGIN_URL'))
 /* Plugin verison */
 
 if (!defined('AUTHOR_NOTIFIER_VERSION_NUM'))
-    define('AUTHOR_NOTIFIER_VERSION_NUM', '3.0.2');
+    define('AUTHOR_NOTIFIER_VERSION_NUM', '0.1');
 
 
 /**
@@ -54,7 +54,7 @@ add_filter("plugin_action_links_$plugin", array('AuthorNotifier', 'author_notifi
 /**
  *  AuthorNotifier main class
  *
- * @since 1.0.0
+ * @since 0.1
  * @using Wordpress 3.8
  */
 
@@ -157,17 +157,17 @@ class AuthorNotifier {
 	 */
 	static function default_data() {
 		return array(
-			'publish_notify'	=> 'contributor',
-			'pending_notify'	=> 'admin',
+			'publish_notify'	=> 'author',
+			'pending_notify'	=> 'author',
 			'post_types'		=> array('post'),
 			'message'			=> array(
 				'cc_email'						=> '',
 				'bcc_email'						=> '',
-				'from_email'					=> 'wordpress@' . $_SERVER['HTTP_HOST'],
-				'subject_published_contributor'	=> 'Published {post_type}: {post_title}',
-				'subject_published'				=> 'Published {post_type}: {post_title}',
-				'subject_published_global'		=> 'Published {post_type}: {post_title}',
-				'subject_pending'				=> 'Please moderate: {post_title}',
+				'from_email'					=> 'no-reply@' . $_SERVER['HTTP_HOST'],
+				'subject_published_contributor'	=> 'Published Article: {post_title}',
+				'subject_published'				=> 'Published Article: {post_title}',
+				'subject_published_global'		=> 'Published Article: {post_title}',
+				'subject_pending'				=> 'Article submitted: {post_title}',
 				'content_published_contributor'	=> '{post_title} was just published! Check it out, and thanks for the hard work. {break_line}{break_line}View it: {post_url}',
 				'content_published'				=> '{post_title} was just published! {break_line}{break_line}View it: {post_url}',
 				'content_published_global'		=> '{post_title} was just published! {break_line}{break_line}View it: {post_url}',
