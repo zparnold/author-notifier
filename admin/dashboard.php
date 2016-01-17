@@ -118,9 +118,9 @@
 				<!-- Email sent to contributor when their post is published -->
 
 				<div class="form-group">
-					<label class="col-sm-3 control-label"><?php _e('Contributor\'s Post Published', self::$text_domain); ?><br /><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-published-contributor"><?php _e('Example Email', self::$text_domain); ?></button></label>
+					<label class="col-sm-3 control-label"><?php _e('Author\'s Post Published', self::$text_domain); ?><br /><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-published-contributor"><?php _e('Example Email', self::$text_domain); ?></button></label>
 					<div class="col-sm-9">
-						<p class="form-control-static"><em><?php _e('Sent to the contributor when their post is published.', self::$text_domain); ?></em></p>
+						<p class="form-control-static"><em><?php _e('Sent to the author when their post is published.', self::$text_domain); ?></em></p>
 						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
 						<input id="author_notifier_settings_message_subject_published_contributor" name="author_notifier_settings_message_subject_published_contributor" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published_contributor']); ?>"/><br/>
 
@@ -134,7 +134,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><?php _e('Post Submitted for Review', self::$text_domain); ?><br /><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#submit-for-review"><?php _e('Example Email', self::$text_domain); ?></button></label>
 					<div class="col-sm-9">
-						<p class="form-control-static"><em><?php _e('Sent to admins or editors when a contributor submits a post for review.', self::$text_domain); ?></em></p>
+						<p class="form-control-static"><em><?php _e('Sent to author when he/she submits a post for review.', self::$text_domain); ?></em></p>
 						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
 						<input id="author_notifier_settings_message_subject_pending" name="author_notifier_settings_message_subject_pending" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_pending']); ?>"/><br/>
 
