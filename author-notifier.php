@@ -157,8 +157,8 @@ class AuthorNotifier {
 	 */
 	static function default_data() {
 		return array(
-			'publish_notify'	=> '',
-			'pending_notify'	=> '',
+			'publish_notify'	=> 'author',
+			'pending_notify'	=> 'author',
 			'post_types'		=> array('post'),
 			'message'			=> array(
 				'cc_email'						=> '',
