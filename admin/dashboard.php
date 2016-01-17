@@ -261,7 +261,6 @@
 
 		</div>
 
-		<?php require_once('sidebar.php'); ?>
 
 	</div>
 
