@@ -3,7 +3,7 @@
 Plugin Name: Author Notifier
 plugin URI: https://github.com/zparnold/author-notifier
 Description: Send authors an email
-version: 0.1
+version: 1.0
 Author: Zach Arnold + 99 Robots
 Author URI: https://zacharnold.org
 License: GPL2
@@ -31,7 +31,7 @@ if (!defined('AUTHOR_NOTIFIER_PLUGIN_URL'))
 /* Plugin verison */
 
 if (!defined('AUTHOR_NOTIFIER_VERSION_NUM'))
-    define('AUTHOR_NOTIFIER_VERSION_NUM', '0.1');
+    define('AUTHOR_NOTIFIER_VERSION_NUM', '1.0');
 
 
 /**
