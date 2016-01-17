@@ -351,6 +351,9 @@ class AuthorNotifier {
 			$settings = self::default_data();
 		}
 
+		$default_data = self::default_data();
+
+
 		$settings['message'] = array(
 			'cc_email'						=> $settings['message']['cc_email'] != '' ? $settings['message']['cc_email'] : $default_data['message']['cc_email'],
 			'bcc_email'						=> $settings['message']['bcc_email'] != '' ? $settings['message']['bcc_email'] : $default_data['message']['bcc_email'],
