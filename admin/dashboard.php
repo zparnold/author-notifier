@@ -42,7 +42,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><?php _e('Post Submitted for Review', self::$text_domain); ?></label>
 					<div class="col-sm-9">
-						<em class="help-block"><?php _e('Notify these users when a contributor submits a post for review.', self::$text_domain); ?></em>
+						<em class="help-block"><?php _e('Notify these users when a author submits a post for review.', self::$text_domain); ?></em>
 
 						<input name="wpsite_post_status_notifications_settings_pending_notify" type="radio" value="administrator" <?php echo isset($settings['pending_notify']) && $settings['pending_notify'] == 'administrator' ? 'checked' : ''; ?>><span><?php _e('Admins', self::$text_domain); ?></span><br />
 
@@ -56,7 +56,7 @@
 					<div class="col-sm-9">
 						<em class="help-block"><?php _e('Notify these users when a contributor\'s post is published or any other post is published.', self::$text_domain); ?></em>
 
-						<input id="wpsite_post_status_notifications_settings_publish_notify_author" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="author" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'author' ? 'checked="checked"' : ''; ?>><span><?php _e('Contributors', self::$text_domain); ?></span><br />
+						<input id="wpsite_post_status_notifications_settings_publish_notify_author" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="author" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'author' ? 'checked="checked"' : ''; ?>><span><?php _e('Authors', self::$text_domain); ?></span><br />
 
 						<input id="wpsite_post_status_notifications_settings_publish_notify_users" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="users" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'users' ? 'checked="checked"' : ''; ?>><span><?php _e('All Users', self::$text_domain); ?></span><br />
 
