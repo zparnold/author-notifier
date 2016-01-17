@@ -456,7 +456,7 @@ class AuthorNotifier {
 			$result = wp_mail($author_email, $subject, $message, $headers);
 	    }
 
-	    // Notifiy Contributor or All Admins or All Users that a post was published
+	    // Notifiy Author when their work is published
 
 	    if (in_array($post->post_type, $settings['post_types']) && $new_status == 'publish') {
 
@@ -474,75 +474,8 @@ class AuthorNotifier {
 
 			// Notify All Admins or All Users
 
-			if (isset($settings['publish_notify']) && $settings['publish_notify'] != 'author') {
-
-				// Notify All Admins
-
-				if ($settings['publish_notify'] == 'admins' && $old_status == 'pending') {
-
-					$subject = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published']);
-					$message = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published']);
-			    	$message .= $share_links;
-
-					$users = get_users(array(
-						'role'		=> 'administrator'
-					));
-
-					foreach ($users as $user) {
-						$result = wp_mail($user->user_email, $subject, $message, $headers);
-					}
-				}
-
-				// Notify All Editors
-
-				if ($settings['publish_notify'] == 'editors' && ($old_status == 'pending' || $old_status != $new_status)) {
-
-					$subject = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published']);
-					$message = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published']);
-			    	$message .= $share_links;
-
-					$users = get_users(array(
-						'role'		=> 'editor'
-					));
-
-					foreach ($users as $user) {
-						$result = wp_mail($user->user_email, $subject, $message, $headers);
-					}
-				}
-
-				// Notify All Users
-
-				if ($settings['publish_notify'] == 'users' && ($old_status == 'pending' || $old_status != $new_status)) {
-
-					$exclude_array = array();
-
-					if ($old_status == 'pending' && user_can($post->post_author, 'edit_posts') && !user_can($post->post_author, 'publish_posts')) {
-
-						$username = get_userdata($post->post_author);
-						$subject = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published_contributor']);
-						$message = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published_contributor']);
-				    	$message .= $share_links;
-
-						$result = wp_mail($username->user_email, $subject, $message, $headers);
-
-						$exclude_array[] = $post->post_author;
-					}
-
-					$subject = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published']);
-					$message = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published']);
-			    	$message .= $share_links;
-
-					$users = get_users(array(
-						'exclude'	=> $exclude_array
-					));
-
-					foreach ($users as $user) {
-						$result = wp_mail($user->user_email, $subject, $message, $headers);
-					}
-				}
 			}
 	    }
-	}
 
 	/**
 	 * Parse the tags added by people

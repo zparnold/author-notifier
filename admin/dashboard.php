@@ -19,7 +19,7 @@
 					<div class="col-sm-9">
 						<em class="help-block"><?php _e('Post status notification emails will only be sent for activity occurring within the following post types.', self::$text_domain); ?></em>
 						<?php foreach ($post_types as $post_type) { ?>
-							<input type="checkbox" id="wpsite_post_status_notifications_settings_post_types_<?php echo $post_type; ?>" name="wpsite_post_status_notifications_settings_post_types_<?php echo $post_type; ?>" <?php echo (isset($settings['post_types']) && in_array($post_type, $settings['post_types']) ? 'checked="checked"' : '');?>/><span><?php printf(__('%s', self::$text_domain), $post_type); ?></span><br />
+							<input type="checkbox" id="author_notifier_settings_post_types_<?php echo $post_type; ?>" name="author_notifier_settings_post_types_<?php echo $post_type; ?>" <?php echo (isset($settings['post_types']) && in_array($post_type, $settings['post_types']) ? 'checked="checked"' : '');?>/><span><?php printf(__('%s', self::$text_domain), $post_type); ?></span><br />
 						<?php } ?>
 					</div>
 				</div>
@@ -29,41 +29,13 @@
 					<div class="col-sm-9">
 						<em class="help-block"><?php _e('Encourage sharing of published posts by inserting automatically generated share links to the bottom of the email notifications that are sent.', self::$text_domain); ?></em>
 
-						<input id="wpsite_post_status_notifications_settings_message_share_links_twitter" name="wpsite_post_status_notifications_settings_message_share_links_twitter" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['twitter']) && $settings['message']['share_links']['twitter'] ? 'checked="checked"' : ''; ?>><span><?php _e('Twitter', self::$text_domain); ?></span><br />
+						<input id="author_notifier_settings_message_share_links_twitter" name="author_notifier_settings_message_share_links_twitter" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['twitter']) && $settings['message']['share_links']['twitter'] ? 'checked="checked"' : ''; ?>><span><?php _e('Twitter', self::$text_domain); ?></span><br />
 
-						<input id="wpsite_post_status_notifications_settings_message_share_links_facebook" name="wpsite_post_status_notifications_settings_message_share_links_facebook" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['facebook']) && $settings['message']['share_links']['facebook'] ? 'checked="checked"' : ''; ?>><span><?php _e('Facebook', self::$text_domain); ?></span><br />
+						<input id="author_notifier_settings_message_share_links_facebook" name="author_notifier_settings_message_share_links_facebook" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['facebook']) && $settings['message']['share_links']['facebook'] ? 'checked="checked"' : ''; ?>><span><?php _e('Facebook', self::$text_domain); ?></span><br />
 
-						<input id="wpsite_post_status_notifications_settings_message_share_links_google" name="wpsite_post_status_notifications_settings_message_share_links_google" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['google']) && $settings['message']['share_links']['google'] ? 'checked="checked"' : ''; ?>><span><?php _e('Google+', self::$text_domain); ?></span><br />
+						<input id="author_notifier_settings_message_share_links_google" name="author_notifier_settings_message_share_links_google" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['google']) && $settings['message']['share_links']['google'] ? 'checked="checked"' : ''; ?>><span><?php _e('Google+', self::$text_domain); ?></span><br />
 
-						<input id="wpsite_post_status_notifications_settings_message_share_links_linkedin" name="wpsite_post_status_notifications_settings_message_share_links_linkedin" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['linkedin']) && $settings['message']['share_links']['linkedin'] ? 'checked="checked"' : ''; ?>><span><?php _e('LinkedIn', self::$text_domain); ?></span><br />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-3 control-label"><?php _e('Post Submitted for Review', self::$text_domain); ?></label>
-					<div class="col-sm-9">
-						<em class="help-block"><?php _e('Notify these users when a author submits a post for review.', self::$text_domain); ?></em>
-
-						<input name="wpsite_post_status_notifications_settings_pending_notify" type="radio" value="administrator" <?php echo isset($settings['pending_notify']) && $settings['pending_notify'] == 'administrator' ? 'checked' : ''; ?>><span><?php _e('Admins', self::$text_domain); ?></span><br />
-
-						<input name="wpsite_post_status_notifications_settings_pending_notify" type="radio" value="editor" <?php echo isset($settings['pending_notify']) && $settings['pending_notify'] == 'editor' ? 'checked' : ''; ?>><span><?php _e('Editors', self::$text_domain); ?></span><br />
-
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-3 control-label"><?php _e('Post Was Published', self::$text_domain); ?></label>
-					<div class="col-sm-9">
-						<em class="help-block"><?php _e('Notify these users when a contributor\'s post is published or any other post is published.', self::$text_domain); ?></em>
-
-						<input id="wpsite_post_status_notifications_settings_publish_notify_author" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="author" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'author' ? 'checked="checked"' : ''; ?>><span><?php _e('Authors', self::$text_domain); ?></span><br />
-
-						<input id="wpsite_post_status_notifications_settings_publish_notify_users" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="users" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'users' ? 'checked="checked"' : ''; ?>><span><?php _e('All Users', self::$text_domain); ?></span><br />
-
-						<input id="wpsite_post_status_notifications_settings_publish_notify_admins" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="admins" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'admins' ? 'checked="checked"' : ''; ?>><span><?php _e('Admins', self::$text_domain); ?></span><br />
-
-						<input id="wpsite_post_status_notifications_settings_publish_notify_editors" name="wpsite_post_status_notifications_settings_publish_notify" type="radio" value="editors" <?php echo isset($settings['publish_notify']) && $settings['publish_notify'] == 'editors' ? 'checked="checked"' : ''; ?>><span><?php _e('Editors', self::$text_domain); ?></span><br />
-
+						<input id="author_notifier_settings_message_share_links_linkedin" name="author_notifier_settings_message_share_links_linkedin" type="checkbox" value="users" <?php echo isset($settings['message']['share_links']['linkedin']) && $settings['message']['share_links']['linkedin'] ? 'checked="checked"' : ''; ?>><span><?php _e('LinkedIn', self::$text_domain); ?></span><br />
 					</div>
 				</div>
 
@@ -76,7 +48,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><?php _e('From', self::$text_domain); ?></label>
 					<div class="col-sm-9">
-						<input id="wpsite_post_status_notifications_settings_message_from_email" name="wpsite_post_status_notifications_settings_message_from_email" type="text" class="form-control" value="<?php echo ( isset($settings['message']['from_email']) ? esc_attr($settings['message']['from_email']) : 'wordpress@' . get_site_url()); ?>" placeholder="<?php _e('email@example.com or email@example.com,another@example.com', self::$text_domain); ?>">
+						<input id="author_notifier_settings_message_from_email" name="author_notifier_settings_message_from_email" type="text" class="form-control" value="<?php echo ( isset($settings['message']['from_email']) ? esc_attr($settings['message']['from_email']) : 'wordpress@' . get_site_url()); ?>" placeholder="<?php _e('email@example.com or email@example.com,another@example.com', self::$text_domain); ?>">
 						<em class="help-block"><?php _e('The From email address for all email notifications.  Please enter in emails separated by commas.', self::$text_domain); ?></em>
 					</div>
 				</div>
@@ -86,7 +58,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><?php _e('Cc', self::$text_domain); ?></label>
 					<div class="col-sm-9">
-						<input id="wpsite_post_status_notifications_settings_message_cc_email" name="wpsite_post_status_notifications_settings_message_cc_email" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['cc_email']); ?>" placeholder="<?php _e('email@example.com or email@example.com,another@example.com', self::$text_domain); ?>">
+						<input id="author_notifier_settings_message_cc_email" name="author_notifier_settings_message_cc_email" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['cc_email']); ?>" placeholder="<?php _e('email@example.com or email@example.com,another@example.com', self::$text_domain); ?>">
 						<em class="help-block"><?php _e('The Cc email address for all email notifications.  Please enter in emails separated by commas.', self::$text_domain); ?></em>
 					</div>
 				</div>
@@ -96,7 +68,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><?php _e('Bcc', self::$text_domain); ?></label>
 					<div class="col-sm-9">
-						<input id="wpsite_post_status_notifications_settings_message_bcc_email" name="wpsite_post_status_notifications_settings_message_bcc_email" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['bcc_email']); ?>" placeholder="<?php _e('email@example.com or email@example.com,another@example.com', self::$text_domain); ?>">
+						<input id="author_notifier_settings_message_bcc_email" name="author_notifier_settings_message_bcc_email" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['bcc_email']); ?>" placeholder="<?php _e('email@example.com or email@example.com,another@example.com', self::$text_domain); ?>">
 						<em class="help-block"><?php _e('The Bcc email address for all email notifications.  Please enter in emails separated by commas.', self::$text_domain); ?></em>
 					</div>
 				</div>
@@ -149,10 +121,10 @@
 					<div class="col-sm-9">
 						<p class="form-control-static"><em><?php _e('Sent to users when a post has been published.  If the post being published was written by a contributor then they will receive a custom email as seen below.', self::$text_domain); ?></em></p>
 						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
-						<input id="wpsite_post_status_notifications_settings_message_subject_published" name="wpsite_post_status_notifications_settings_message_subject_published" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published']); ?>"/><br/>
+						<input id="author_notifier_settings_message_subject_published" name="author_notifier_settings_message_subject_published" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published']); ?>"/><br/>
 
 						<label><?php _e('Content', self::$text_domain); ?></label><br/>
-						<textarea rows="10" cols="50" class="form-control" id="wpsite_post_status_notifications_settings_message_content_published" name="wpsite_post_status_notifications_settings_message_content_published"><?php echo esc_attr($settings['message']['content_published']); ?></textarea>
+						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_published" name="author_notifier_settings_message_content_published"><?php echo esc_attr($settings['message']['content_published']); ?></textarea>
 					</div>
 				</div>
 
@@ -163,10 +135,10 @@
 					<div class="col-sm-9">
 						<p class="form-control-static"><em><?php _e('Sent to the contributor when their post is published.', self::$text_domain); ?></em></p>
 						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
-						<input id="wpsite_post_status_notifications_settings_message_subject_published_contributor" name="wpsite_post_status_notifications_settings_message_subject_published_contributor" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published_contributor']); ?>"/><br/>
+						<input id="author_notifier_settings_message_subject_published_contributor" name="author_notifier_settings_message_subject_published_contributor" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published_contributor']); ?>"/><br/>
 
 						<label><?php _e('Content', self::$text_domain); ?></label><br/>
-						<textarea rows="10" cols="50" class="form-control" id="wpsite_post_status_notifications_settings_message_content_published_contributor" name="wpsite_post_status_notifications_settings_message_content_published_contributor"><?php echo esc_attr($settings['message']['content_published_contributor']); ?></textarea>
+						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_published_contributor" name="author_notifier_settings_message_content_published_contributor"><?php echo esc_attr($settings['message']['content_published_contributor']); ?></textarea>
 					</div>
 				</div>
 
@@ -178,10 +150,10 @@
 					<div class="col-sm-9">
 						<p class="form-control-static"><em><?php _e('Sent to users when a post is published.', self::$text_domain); ?></em></p>
 						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
-						<input id="wpsite_post_status_notifications_settings_message_subject_published_global" name="wpsite_post_status_notifications_settings_message_subject_published_global" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published_global']); ?>"/><br/>
+						<input id="author_notifier_settings_message_subject_published_global" name="author_notifier_settings_message_subject_published_global" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published_global']); ?>"/><br/>
 
 						<label><?php _e('Content', self::$text_domain); ?></label><br/>
-						<textarea rows="10" cols="50" class="form-control" id="wpsite_post_status_notifications_settings_message_content_published_global" name="wpsite_post_status_notifications_settings_message_content_published_global"><?php echo esc_attr($settings['message']['content_published_global']); ?></textarea>
+						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_published_global" name="author_notifier_settings_message_content_published_global"><?php echo esc_attr($settings['message']['content_published_global']); ?></textarea>
 					</div>
 				</div>
 -->
@@ -193,14 +165,14 @@
 					<div class="col-sm-9">
 						<p class="form-control-static"><em><?php _e('Sent to admins or editors when a contributor submits a post for review.', self::$text_domain); ?></em></p>
 						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
-						<input id="wpsite_post_status_notifications_settings_message_subject_pending" name="wpsite_post_status_notifications_settings_message_subject_pending" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_pending']); ?>"/><br/>
+						<input id="author_notifier_settings_message_subject_pending" name="author_notifier_settings_message_subject_pending" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_pending']); ?>"/><br/>
 
 						<label><?php _e('Content', self::$text_domain); ?></label><br/>
-						<textarea rows="10" cols="50" class="form-control" id="wpsite_post_status_notifications_settings_message_content_pending" name="wpsite_post_status_notifications_settings_message_content_pending"><?php echo esc_attr($settings['message']['content_pending']); ?></textarea>
+						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_pending" name="author_notifier_settings_message_content_pending"><?php echo esc_attr($settings['message']['content_pending']); ?></textarea>
 					</div>
 				</div>
 
-				<?php wp_nonce_field('wpsite_post_status_notifications_admin_settings'); ?>
+				<?php wp_nonce_field('author_notifier_admin_settings'); ?>
 
 				<p class="submit">
 					<input type="submit" name="submit" id="submit" class="btn btn-info" value="<?php _e('Save Changes', self::$text_domain); ?>">
