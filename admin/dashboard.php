@@ -114,19 +114,6 @@
 					</div>
 				</div>
 
-				<!-- Email when a post is published -->
-
-				<div class="form-group">
-					<label class="col-sm-3 control-label"><?php _e('Post Published', self::$text_domain); ?><br /><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#post-published"><?php _e('Example Email', self::$text_domain); ?></button></label>
-					<div class="col-sm-9">
-						<p class="form-control-static"><em><?php _e('Sent to users when a post has been published.  If the post being published was written by a contributor then they will receive a custom email as seen below.', self::$text_domain); ?></em></p>
-						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
-						<input id="author_notifier_settings_message_subject_published" name="author_notifier_settings_message_subject_published" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published']); ?>"/><br/>
-
-						<label><?php _e('Content', self::$text_domain); ?></label><br/>
-						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_published" name="author_notifier_settings_message_content_published"><?php echo esc_attr($settings['message']['content_published']); ?></textarea>
-					</div>
-				</div>
 
 				<!-- Email sent to contributor when their post is published -->
 
@@ -141,22 +128,6 @@
 						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_published_contributor" name="author_notifier_settings_message_content_published_contributor"><?php echo esc_attr($settings['message']['content_published_contributor']); ?></textarea>
 					</div>
 				</div>
-
-				<!-- Email when post is published -->
-
-<!--
-				<div class="form-group">
-					<label class="col-sm-3 control-label"><?php _e('Post Published', self::$text_domain); ?></label>
-					<div class="col-sm-9">
-						<p class="form-control-static"><em><?php _e('Sent to users when a post is published.', self::$text_domain); ?></em></p>
-						<label><?php _e('Subject', self::$text_domain); ?></label><br/>
-						<input id="author_notifier_settings_message_subject_published_global" name="author_notifier_settings_message_subject_published_global" type="text" class="form-control" value="<?php echo esc_attr($settings['message']['subject_published_global']); ?>"/><br/>
-
-						<label><?php _e('Content', self::$text_domain); ?></label><br/>
-						<textarea rows="10" cols="50" class="form-control" id="author_notifier_settings_message_content_published_global" name="author_notifier_settings_message_content_published_global"><?php echo esc_attr($settings['message']['content_published_global']); ?></textarea>
-					</div>
-				</div>
--->
 
 				<!-- Email sent to admin when contributor submits post for review -->
 
@@ -179,23 +150,6 @@
 				</p>
 
 			</form>
-
-			<div class="modal fade" id="post-published" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document" style="margin-top: 10vh;width: 800px;max-width: 100%;">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title"><?php _e('Example Email', self::$text_domain); ?></h4>
-						</div>
-						<div class="modal-body">
-							<img style="width: 100%;" src="<?php echo WPSITE_POST_STATUS_NOTIFICATION_PLUGIN_URL . '/img/post-published.png'; ?>"/>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', self::$text_domain); ?></button>
-						</div>
-					</div>
-				</div>
-			</div>
 
 			<div class="modal fade" id="post-published-contributor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div class="modal-dialog" role="document" style="margin-top: 10vh;width: 800px;max-width: 100%;">
