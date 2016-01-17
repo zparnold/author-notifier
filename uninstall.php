@@ -9,8 +9,8 @@
 
 	global $wpdb;
 
-	$option_name = 'wpsite_post_status_notifications_settings';
-	$version_name = 'wpsite_post_status_notification_verison';
+	$option_name = 'author_notifier_settings';
+	$version_name = 'author_notifier_verison';
 
 	if ( !is_multisite() ) {
 

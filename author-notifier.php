@@ -403,6 +403,10 @@ class AuthorNotifier {
 		$url = get_permalink($post->ID);
 		$share_links = '';
 
+
+		/**
+		 * Add sharing links are set
+		 */
 		if (isset($share_links_check) && $share_links_check) {
 			$share_links = "\r\n\r\nShare Links\r\n";
 
@@ -423,33 +427,33 @@ class AuthorNotifier {
 			}
 		}
 
-		// Notifiy Admins that Contributor has writen a post
+		// Notifiy Author that he/she has written a post
 
-	    if (in_array($post->post_type, $settings['post_types']) && $new_status == 'pending' && user_can($post->post_author, 'edit_posts') && !user_can($post->post_author, 'publish_posts')) {
+	    if (in_array($post->post_type, $settings['post_types']) && $new_status == 'pending') {
 
 	    	$url = get_permalink($post->ID);
 	    	$edit_link = get_edit_post_link($post->ID, '');
 			$preview_link = get_permalink($post->ID) . '&preview=true';
 	    	$username = get_userdata($post->post_author);
+			$author_email = $username -> user_email;
 
 			$subject = self::parse_tags($post, $username, $settings['message']['subject_pending']);
 			$message = self::parse_tags($post, $username, $settings['message']['content_pending']);
 
 	    	$message .= "\r\n\r\n";
-	    	$message .= "Author: " . $username->display_name . "\r\n";
-	    	$message .= "Title of " . $post->post_type . ": " . $post->post_title;
+			$message .= "Dear $username->display_name,"."\r\n";
+	    	$message .= "Thank you for submitting your article to Charismedica. This is a confirmation email for your records.";
+			$message .= "Please find below information on your article. \r\n \r\n";
+			$message .= "ID: $post->ID";
+	    	$message .= "Title: $post->post_title \r\n";
+			$message .= "Abstract: $post->post_content \r\n\r\n";
+			$message .= "This is an automatically generated email. Please do not respond to it directly.";
+			$message .= "For questions regarding your submission, please visit our contact page to get in touch with us. \r\n\r\n";
+			$message .= "Best regards, \r\n";
+			$message .= "Charismedica";
 
-	    	$message .= "\r\n\r\n";
-	    	$message .= "Edit the " . $post->post_type . ": " . $edit_link . "\r\n";
-	    	$message .= "Preview it: " . $preview_link;
 
-			$users = get_users(array(
-				'role'	=> $settings['pending_notify']
-			));
-
-			foreach ($users as $user) {
-				$result = wp_mail($user->user_email, $subject, $message, $headers);
-			}
+			$result = wp_mail($author_email, $subject, $message, $headers);
 	    }
 
 	    // Notifiy Contributor or All Admins or All Users that a post was published
