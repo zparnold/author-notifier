@@ -460,7 +460,7 @@ class AuthorNotifier {
 
 	    if (in_array($post->post_type, $settings['post_types']) && $new_status == 'publish') {
 
-	    	// Notify Contributor that their post was published
+	    	// Notify Author that their post was published
 
 	    	if (isset($settings['publish_notify']) && $settings['publish_notify'] == 'author' && $old_status == 'pending' && user_can($post->post_author, 'edit_posts') && !user_can($post->post_author, 'publish_posts')) {
 
