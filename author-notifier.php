@@ -343,6 +343,9 @@ class AuthorNotifier {
 	 */
 	static function wpsite_send_email( $new_status, $old_status, $post ) {
 
+		/**
+		 *
+		 */
 		//$settings = get_option('author_notifier_settings');
 		$settings = false;
 		// Default values
@@ -351,6 +354,7 @@ class AuthorNotifier {
 			$settings = self::default_data();
 		}
 
+		/*
 		$settings['message'] = array(
 			'cc_email'						=> $settings['message']['cc_email'] != '' ? $settings['message']['cc_email'] : $default_data['message']['cc_email'],
 			'bcc_email'						=> $settings['message']['bcc_email'] != '' ? $settings['message']['bcc_email'] : $default_data['message']['bcc_email'],
@@ -368,6 +372,7 @@ class AuthorNotifier {
 				'linkedin'	=> $settings['message']['share_links']['linkedin'],
 			)
 		);
+		*/
 
 		// If status did not change
 
