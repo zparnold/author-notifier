@@ -46,7 +46,7 @@ register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation
  */
 
 add_action('transition_post_status', array('AuthorNotifier', 'author_notifier_send_email'), 10, 3 );
-slack("action added to send emails");
+slack("action added to send emails"); 
 add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 add_action('admin_menu', array('AuthorNotifier', 'author_notifier_admin_menu'));
 
