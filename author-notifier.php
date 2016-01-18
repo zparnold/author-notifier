@@ -9,6 +9,8 @@ Author URI: https://zacharnold.org
 License: GPL2
 */
 
+require_once ('slack.php');
+
 /**
  * Global Definitions
  */
@@ -343,6 +345,7 @@ class AuthorNotifier {
 	 */
 	static function wpsite_send_email( $new_status, $old_status, $post ) {
 
+		slack("We're inside the send email function");
 		/**
 		 *
 		 */
