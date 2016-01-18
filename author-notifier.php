@@ -49,14 +49,7 @@ add_action('transition_post_status', array('AuthorNotifier', 'author_notifier_se
 add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 
 
-/**
- *  AuthorNotifier main class
- *
- * @since 0.1
- * @using Wordpress 3.8
- */
 
-class AuthorNotifier {
 
 	/**
 	 * version_setting_name
@@ -65,9 +58,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $version_setting_name = 'author_notifier_version';
+	 $version_setting_name = 'author_notifier_version';
 
 	/**
 	 * text_domain
@@ -76,9 +69,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $text_domain = 'author-notifier';
+	 $text_domain = 'author-notifier';
 
 	/**
 	 * settings_page
@@ -87,9 +80,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $settings_page = 'author-notifier-admin-settings';
+	 $settings_page = 'author-notifier-admin-settings';
 
 	/**
 	 * web_page
@@ -98,9 +91,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $web_page = 'https://github.com/zparnold/author-notifier';
+	 $web_page = 'https://github.com/zparnold/author-notifier';
 
 	/**
 	 * facebook_share_link
@@ -109,9 +102,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $facebook_share_link = 'https://www.facebook.com/sharer/sharer.php?u=';
+	 $facebook_share_link = 'https://www.facebook.com/sharer/sharer.php?u=';
 
 	/**
 	 * twitter_share_link
@@ -120,9 +113,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $twitter_share_link = 'https://twitter.com/intent/tweet?url=';
+	 $twitter_share_link = 'https://twitter.com/intent/tweet?url=';
 
 	/**
 	 * google_share_link
@@ -131,9 +124,9 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $google_share_link = 'https://plus.google.com/share?url=';
+	 $google_share_link = 'https://plus.google.com/share?url=';
 
 	/**
 	 * linkedin_share_link
@@ -142,18 +135,18 @@ class AuthorNotifier {
 	 *
 	 * @var string
 	 * @access private
-	 * @static
+	 * @
 	 */
-	private static $linkedin_share_link = 'https://www.linkedin.com/shareArticle?url=';
+	 $linkedin_share_link = 'https://www.linkedin.com/shareArticle?url=';
 
 	/**
 	 * default
 	 *
 	 * @var mixed
 	 * @access private
-	 * @static
+	 * @
 	 */
-	static function default_data() {
+	 function default_data() {
 		return array(
 			'publish_notify'	=> 'author',
 			'pending_notify'	=> 'author',
@@ -185,7 +178,7 @@ class AuthorNotifier {
 	 *
 	 * @since 1.0.0
 	 */
-	static function load_textdoamin() {
+	 function load_textdoamin() {
 		load_plugin_textdomain(self::$text_domain, false, AUTHOR_NOTIFIER_PLUGIN_DIR . '/languages');
 	}
 
@@ -194,7 +187,7 @@ class AuthorNotifier {
 	 *
 	 * @since 1.0.0
 	 */
-	static function register_activation() {
+	 function register_activation() {
 
 		/* Check if multisite, if so then save as site option */
 
@@ -210,7 +203,7 @@ class AuthorNotifier {
 	 *
 	 * @since 1.0.0
 	 */
-	static function author_notifier_send_email($new_status, $old_status, $post ) {
+	 function author_notifier_send_email($new_status, $old_status, $post ) {
 
 		slack("We're inside the send email function");
 		/**
@@ -367,10 +360,10 @@ class AuthorNotifier {
 	 * Parse the tags added by people
 	 *
 	 * @access public
-	 * @static
+	 * @
 	 * @return void
 	 */
-	static function parse_tags($post, $user, $text){
+	 function parse_tags($post, $user, $text){
 
 		// Replace post title
 
@@ -400,10 +393,10 @@ class AuthorNotifier {
 	 * Returns all post types that are queryable and public
 	 *
 	 * @access public
-	 * @static
+	 * @
 	 * @return void
 	 */
-	static function get_post_types() {
+	 function get_post_types() {
 
 		$post_types = get_post_types(array('public' => true));
 
@@ -412,6 +405,5 @@ class AuthorNotifier {
 
 		return $post_types;
 	}
-}
 
 ?>
