@@ -45,7 +45,7 @@ register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation
  * Hooks / Filter
  */
 
-add_action('transition_post_status', array('AuthorNotifier', 'author_notifier_send_email'), 10, 3 );
+add_action('transition_post_status', 'author_notifier_send_email', 10, 3 );
 add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 
 
