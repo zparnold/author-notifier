@@ -168,10 +168,10 @@ class AuthorNotifier {
 				'subject_published'				=> 'Published Article: {post_title}',
 				'subject_published_global'		=> 'Published Article: {post_title}',
 				'subject_pending'				=> 'Article submitted: {post_title}',
-				'content_published_contributor'	=> '{post_title} was just published! Check it out, and thanks for the hard work. {break_line}{break_line}View it: {post_url}',
+				'content_published_contributor'	=> 'View it: {post_url} {break_line}{break_line}',
 				'content_published'				=> '{post_title} was just published! {break_line}{break_line}View it: {post_url}',
 				'content_published_global'		=> '{post_title} was just published! {break_line}{break_line}View it: {post_url}',
-				'content_pending'				=> 'A new {post_type}: {post_title} from contributor: {display_name} is now pending.',
+				'content_pending'				=> '',
 				'share_links'					=> array(
 					'twitter'	=> true,
 					'facebook'	=> true,
@@ -354,7 +354,7 @@ class AuthorNotifier {
 			$settings = self::default_data();
 		}
 
-		/*
+
 		$settings['message'] = array(
 			'cc_email'						=> $settings['message']['cc_email'] != '' ? $settings['message']['cc_email'] : $default_data['message']['cc_email'],
 			'bcc_email'						=> $settings['message']['bcc_email'] != '' ? $settings['message']['bcc_email'] : $default_data['message']['bcc_email'],
@@ -372,7 +372,7 @@ class AuthorNotifier {
 				'linkedin'	=> $settings['message']['share_links']['linkedin'],
 			)
 		);
-		*/
+
 
 		// If status did not change
 
@@ -447,13 +447,13 @@ class AuthorNotifier {
 
 	    	$message .= "\r\n\r\n";
 			$message .= "Dear $username->display_name,"."\r\n";
-	    	$message .= "Thank you for submitting your article to Charismedica. This is a confirmation email for your records.";
+	    	$message .= "Thank you for submitting your article to Charismedica. This is a confirmation email for your records. ";
 			$message .= "Please find below information on your article. \r\n \r\n";
-			$message .= "ID: $post->ID";
+			$message .= "ID: $post->ID \r\n";
 	    	$message .= "Title: $post->post_title \r\n";
 			$message .= "Abstract: $post->post_content \r\n\r\n";
-			$message .= "This is an automatically generated email. Please do not respond to it directly.";
-			$message .= "For questions regarding your submission, please visit our contact page to get in touch with us. \r\n\r\n";
+			$message .= "This is an automatically generated email. Please do not respond to it directly. ";
+			$message .= "For questions regarding your submission, visit our contact page to get in touch with us. \r\n\r\n";
 			$message .= "Best regards, \r\n";
 			$message .= "Charismedica";
 
@@ -471,7 +471,18 @@ class AuthorNotifier {
 
 				$username = get_userdata($post->post_author);
 				$subject = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published_contributor']);
+
+				$message .= "Dear $username->display_name,"."\r\n";
+				$message .= "Congratulations! Your article was reviewed by our staff and accepted! ";
+				$message .= "Please find below information on your article. \r\n \r\n";
+				$message .= "ID: $post->ID \r\n";
+				$message .= "Title: $post->post_title \r\n";
+				$message .= "Abstract: $post->post_content \r\n\r\n";
 				$message = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published_contributor']);
+				$message .= "This is an automatically generated email. Please do not respond to it directly. ";
+				$message .= "For questions regarding your submission, visit our contact page to get in touch with us. \r\n\r\n";
+				$message .= "Best regards, \r\n";
+				$message .= "Charismedica";
 				$message .= $share_links;
 
 				$result = wp_mail($username->user_email, $subject, $message, $headers);
