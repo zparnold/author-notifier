@@ -39,14 +39,13 @@ if (!defined('AUTHOR_NOTIFIER_VERSION_NUM'))
  * Activatation / Deactivation
  */
 
-register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation'));
+register_activation_hook( __FILE__, 'register_activation');
 
 /**
  * Hooks / Filter
  */
 
 add_action('transition_post_status', 'author_send_email', 10, 3 );
-add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 
 	/**
 	 * default
@@ -80,15 +79,6 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 				)
 			)
 		);
-	}
-
-	/**
-	 * Load the text domain
-	 *
-	 * @since 1.0.0
-	 */
-	 function load_textdoamin() {
-		load_plugin_textdomain('author-notifier', false, AUTHOR_NOTIFIER_PLUGIN_DIR . '/languages');
 	}
 
 	/**
@@ -251,7 +241,7 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 				$message .= "ID: $post->ID \r\n";
 				$message .= "Title: $post->post_title \r\n";
 				$message .= "Abstract: $post->post_content \r\n\r\n";
-				$message = parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published_contributor']);
+				$message .= parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published_contributor']);
 				$message .= "This is an automatically generated email. Please do not respond to it directly. ";
 				$message .= "For questions regarding your submission, visit our contact page to get in touch with us. \r\n\r\n";
 				$message .= "Best regards, \r\n";
