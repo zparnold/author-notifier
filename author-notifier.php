@@ -9,7 +9,6 @@ Author URI: https://zacharnold.org
 License: GPL2
 */
 
-require_once ('slack.php');
 /**
  * Global Definitions
  */
@@ -103,8 +102,6 @@ add_action('transition_post_status', 'author_send_email', 10, 3 );
 	 * @since 1.0.0
 	 */
 	 function author_send_email($new_status, $old_status, $post ) {
-
-		slack("We're inside the send email function");
 		/**
 		 *
 		 */
