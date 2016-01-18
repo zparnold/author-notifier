@@ -47,10 +47,7 @@ register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation
 
 add_action('transition_post_status', array('AuthorNotifier', 'author_notifier_send_email'), 10, 3 );
 add_action('init', array('AuthorNotifier', 'load_textdoamin'));
-add_action('admin_menu', array('AuthorNotifier', 'author_notifier_admin_menu'));
 
-$plugin = plugin_basename(__FILE__);
-add_filter("plugin_action_links_$plugin", array('AuthorNotifier', 'author_notifier_settings_link'));
 
 /**
  *  AuthorNotifier main class
@@ -206,135 +203,6 @@ class AuthorNotifier {
 		} else {
 			add_option(self::$version_setting_name, AUTHOR_NOTIFIER_VERSION_NUM);
 		}
-	}
-
-	/**
-	 * Hooks to 'plugin_action_links_' filter
-	 *
-	 * @since 1.0.0
-	 */
-	static function author_notifier_settings_link($links) {
-		$settings_link = '<a href="options-general.php?page=' . self::$settings_page . '">Settings</a>';
-		array_unshift($links, $settings_link);
-		return $links;
-	}
-
-	/**
-	 * Hooks to 'admin_menu'
-	 *
-	 * @since 1.0.0
-	 */
-	static function author_notifier_admin_menu() {
-
-		 /* Cast the first sub menu to the settings menu */
-
-	    $settings_page_load = add_submenu_page(
-	    	'options-general.php', 														// parent slug
-	    	__('Author Notifications', self::$text_domain), 						// Page title
-	    	__('Author Notifications', self::$text_domain), 						// Menu name
-	    	'manage_options', 															// Capabilities
-	    	self::$settings_page, 														// slug
-	    	array('AuthorNotifier', 'author_notifier_admin_menu_info_callback')	// Callback function
-	    );
-	    add_action("admin_print_scripts-$settings_page_load", array('AuthorNotifier', 'inline_scripts_admin'));
-	}
-
-	/**
-	 * Hooks to 'admin_print_scripts-$page'
-	 *
-	 * @since 1.0.0
-	 */
-	static function inline_scripts_admin() {
-
-		wp_enqueue_style('author_notifier_settings_css', AUTHOR_NOTIFIER_PLUGIN_URL . '/css/settings.css');
-		wp_enqueue_style('author_notifier_bootstrap_css', AUTHOR_NOTIFIER_PLUGIN_URL . '/css/nnr-bootstrap.min.css');
-
-		wp_enqueue_script('author_notifier_bootstrap_js', AUTHOR_NOTIFIER_PLUGIN_URL . '/js/bootstrap.min.js', array('jquery'));
-	}
-
-	/**
-	 * Callback to info page
-	 *
-	 * @since 1.0.0
-	 */
-	static function author_notifier_admin_menu_info_callback() {
-
-		// Get all post types that are public
-
-		$post_types = self::get_post_types();
-
-		$settings = get_option('author_notifier_settings');
-
-		// Default values
-
-		if ($settings === false) {
-			$settings = self::default_data();
-		}
-
-		// Save data and check nonce
-
-		if (isset($_POST['submit']) && check_admin_referer('author_notifier_admin_settings')) {
-
-			// Determine Post Types
-
-			$post_types_array = array();
-
-			foreach ($post_types as $post_type) {
-				if (isset($_POST['author_notifier_settings_post_types_' . $post_type]) && $_POST['author_notifier_settings_post_types_' . $post_type])
-					$post_types_array[] = $post_type;
-			}
-
-			$default_data = self::default_data();
-
-			$settings = array(
-				'publish_notify'	=> $_POST['author_notifier_settings_publish_notify'],
-				'pending_notify'	=> $_POST['author_notifier_settings_pending_notify'],
-				'post_types'		=> $post_types_array,
-				'message'			=> array(
-					'cc_email'		=> isset($_POST['author_notifier_settings_message_cc_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_cc_email'])) : $default_data['message']['cc_email'],
-					'bcc_email'		=> isset($_POST['author_notifier_settings_message_bcc_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_bcc_email'])) : $default_data['message']['bcc_email'],
-					'from_email'	=> isset($_POST['author_notifier_settings_message_from_email']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_from_email'])) : $default_data['message']['from_email'],
-					'subject_published'	=> isset($_POST['author_notifier_settings_message_subject_published']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_published'])) : $default_data['message']['subject_published'],
-					'subject_published_global'	=> isset($_POST['author_notifier_settings_message_subject_published_global']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_published_global'])) : $default_data['message']['subject_published_global'],
-					'subject_published_contributor'	=> isset($_POST['author_notifier_settings_message_subject_published_contributor']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_published_contributor'])) :  $default_data['message']['subject_published_contributor'],
-					'subject_pending'	=> isset($_POST['author_notifier_settings_message_subject_pending']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_subject_pending'])) :  $default_data['message']['subject_pending'],
-					'content_published'	=> isset($_POST['author_notifier_settings_message_content_published']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_published'])) :  $default_data['message']['content_published'],
-					'content_published_global'	=> isset($_POST['author_notifier_settings_message_content_published_global']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_published_global'])) :  $default_data['message']['content_published_global'],
-					'content_published_contributor'	=> isset($_POST['author_notifier_settings_message_content_published_contributor']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_published_contributor'])) :  $default_data['message']['content_published_contributor'],
-					'content_pending'	=> isset($_POST['author_notifier_settings_message_content_pending']) ?stripcslashes(sanitize_text_field($_POST['author_notifier_settings_message_content_pending'])) :  $default_data['message']['content_pending'],
-					'share_links'	=> array(
-						'twitter'	=> isset($_POST['author_notifier_settings_message_share_links_twitter']) && $_POST['author_notifier_settings_message_share_links_twitter'] ? true : false,
-						'facebook'	=> isset($_POST['author_notifier_settings_message_share_links_facebook']) && $_POST['author_notifier_settings_message_share_links_facebook'] ? true : false,
-						'google'	=> isset($_POST['author_notifier_settings_message_share_links_google']) && $_POST['author_notifier_settings_message_share_links_google'] ? true : false,
-						'linkedin'	=> isset($_POST['author_notifier_settings_message_share_links_linkedin']) && $_POST['author_notifier_settings_message_share_links_linkedin'] ? true : false,
-					)
-				)
-			);
-
-			$settings['message'] = array(
-				'cc_email'						=> $settings['message']['cc_email'] != '' ? $settings['message']['cc_email'] : $default_data['message']['cc_email'],
-				'bcc_email'						=> $settings['message']['bcc_email'] != '' ? $settings['message']['bcc_email'] : $default_data['message']['bcc_email'],
-				'from_email'					=> $settings['message']['from_email'] != '' ? $settings['message']['from_email'] : $default_data['message']['from_email'],
-				'subject_published'				=> $settings['message']['subject_published'] != '' ? $settings['message']['subject_published'] : $default_data['message']['subject_published'],
-				'subject_published_global'		=> $settings['message']['subject_published_global'] != '' ? $settings['message']['subject_published_global'] : $default_data['message']['subject_published_global'],
-				'subject_published_contributor'	=> $settings['message']['subject_published_contributor'] != '' ? $settings['message']['subject_published_contributor'] : $default_data['message']['subject_published_contributor'],
-				'subject_pending'				=> $settings['message']['subject_pending'] != '' ? $settings['message']['subject_pending'] : $default_data['message']['subject_pending'],
-				'content_published'				=> $settings['message']['content_published'] != '' ? $settings['message']['content_published'] : $default_data['message']['content_published'],
-				'content_published_global'		=> $settings['message']['content_published_global'] != '' ? $settings['message']['content_published_global'] : $default_data['message']['content_published_global'],
-				'content_published_contributor'	=> $settings['message']['content_published_contributor'] != '' ? $settings['message']['content_published_contributor'] : $default_data['message']['content_published_contributor'],
-				'content_pending'				=> $settings['message']['content_pending'] != '' ? $settings['message']['content_pending'] : $default_data['message']['content_pending'],
-				'share_links'	=> array(
-					'twitter'	=> $settings['message']['share_links']['twitter'],
-					'facebook'	=> $settings['message']['share_links']['facebook'],
-					'google'	=> $settings['message']['share_links']['google'],
-					'linkedin'	=> $settings['message']['share_links']['linkedin'],
-				)
-			);
-
-			update_option('author_notifier_settings', $settings);
-		}
-
-		require('admin/dashboard.php');
 	}
 
 	/**
