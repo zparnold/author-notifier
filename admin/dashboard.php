@@ -159,7 +159,7 @@
 							<h4 class="modal-title"><?php _e('Example Email', self::$text_domain); ?></h4>
 						</div>
 						<div class="modal-body">
-							<img style="width: 100%;" src="<?php echo WPSITE_POST_STATUS_NOTIFICATION_PLUGIN_URL . '/img/post-published-contributor.png'; ?>"/>
+							<img style="width: 100%;" src="<?php echo AUTHOR_NOTIFIER_PLUGIN_URL . '/img/post-published-contributor.png'; ?>"/>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', self::$text_domain); ?></button>
@@ -176,7 +176,7 @@
 							<h4 class="modal-title"><?php _e('Example Email', self::$text_domain); ?></h4>
 						</div>
 						<div class="modal-body">
-							<img style="width: 100%;" src="<?php echo WPSITE_POST_STATUS_NOTIFICATION_PLUGIN_URL . '/img/please-moderate.png'; ?>"/>
+							<img style="width: 100%;" src="<?php echo AUTHOR_NOTIFIER_PLUGIN_URL . '/img/please-moderate.png'; ?>"/>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Close', self::$text_domain); ?></button>

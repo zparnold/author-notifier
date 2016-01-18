@@ -45,9 +45,9 @@ register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation
  * Hooks / Filter
  */
 
-add_action('transition_post_status', array('AuthorNotifier', 'wpsite_send_email'), 10, 3 );
+add_action('transition_post_status', array('AuthorNotifier', 'author_notifier_send_email'), 10, 3 );
 add_action('init', array('AuthorNotifier', 'load_textdoamin'));
-add_action('admin_menu', array('AuthorNotifier', 'wpsite_admin_menu'));
+add_action('admin_menu', array('AuthorNotifier', 'author_notifier_admin_menu'));
 
 $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", array('AuthorNotifier', 'author_notifier_settings_link'));
@@ -224,7 +224,7 @@ class AuthorNotifier {
 	 *
 	 * @since 1.0.0
 	 */
-	static function wpsite_admin_menu() {
+	static function author_notifier_admin_menu() {
 
 		 /* Cast the first sub menu to the settings menu */
 
@@ -234,7 +234,7 @@ class AuthorNotifier {
 	    	__('Author Notifications', self::$text_domain), 						// Menu name
 	    	'manage_options', 															// Capabilities
 	    	self::$settings_page, 														// slug
-	    	array('AuthorNotifier', 'wpsite_admin_menu_info_callback')	// Callback function
+	    	array('AuthorNotifier', 'author_notifier_admin_menu_info_callback')	// Callback function
 	    );
 	    add_action("admin_print_scripts-$settings_page_load", array('AuthorNotifier', 'inline_scripts_admin'));
 	}
@@ -257,7 +257,7 @@ class AuthorNotifier {
 	 *
 	 * @since 1.0.0
 	 */
-	static function wpsite_admin_menu_info_callback() {
+	static function author_notifier_admin_menu_info_callback() {
 
 		// Get all post types that are public
 
@@ -342,7 +342,7 @@ class AuthorNotifier {
 	 *
 	 * @since 1.0.0
 	 */
-	static function wpsite_send_email( $new_status, $old_status, $post ) {
+	static function author_notifier_send_email($new_status, $old_status, $post ) {
 
 		slack("We're inside the send email function");
 		/**
