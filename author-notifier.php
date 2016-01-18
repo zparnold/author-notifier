@@ -343,8 +343,8 @@ class AuthorNotifier {
 	 */
 	static function wpsite_send_email( $new_status, $old_status, $post ) {
 
-		$settings = get_option('author_notifier_settings');
-
+		//$settings = get_option('author_notifier_settings');
+		$settings = false;
 		// Default values
 
 		if ($settings === false) {
