@@ -45,99 +45,8 @@ register_activation_hook( __FILE__, array('AuthorNotifier', 'register_activation
  * Hooks / Filter
  */
 
-add_action('transition_post_status', 'author_notifier_send_email', 10, 3 );
+add_action('transition_post_status', 'author_send_email', 10, 3 );
 add_action('init', array('AuthorNotifier', 'load_textdoamin'));
-
-
-
-
-	/**
-	 * version_setting_name
-	 *
-	 * (default value: 'author_notifier_verison')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $version_setting_name = 'author_notifier_version';
-
-	/**
-	 * text_domain
-	 *
-	 * (default value: 'author-notifier')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $text_domain = 'author-notifier';
-
-	/**
-	 * settings_page
-	 *
-	 * (default value: 'author-notifier-admin-settings')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $settings_page = 'author-notifier-admin-settings';
-
-	/**
-	 * web_page
-	 *
-	 * (default value: 'https://github.com/zparnold/author-notifier')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $web_page = 'https://github.com/zparnold/author-notifier';
-
-	/**
-	 * facebook_share_link
-	 *
-	 * (default value: 'https://www.facebook.com/sharer/sharer.php?u=')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $facebook_share_link = 'https://www.facebook.com/sharer/sharer.php?u=';
-
-	/**
-	 * twitter_share_link
-	 *
-	 * (default value: 'https://twitter.com/intent/tweet?url=')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $twitter_share_link = 'https://twitter.com/intent/tweet?url=';
-
-	/**
-	 * google_share_link
-	 *
-	 * (default value: 'https://plus.google.com/share?url=')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $google_share_link = 'https://plus.google.com/share?url=';
-
-	/**
-	 * linkedin_share_link
-	 *
-	 * (default value: 'https://www.linkedin.com/shareArticle?url=')
-	 *
-	 * @var string
-	 * @access private
-	 * @
-	 */
-	 $linkedin_share_link = 'https://www.linkedin.com/shareArticle?url=';
 
 	/**
 	 * default
@@ -179,7 +88,7 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 	 * @since 1.0.0
 	 */
 	 function load_textdoamin() {
-		load_plugin_textdomain(self::$text_domain, false, AUTHOR_NOTIFIER_PLUGIN_DIR . '/languages');
+		load_plugin_textdomain('author-notifier', false, AUTHOR_NOTIFIER_PLUGIN_DIR . '/languages');
 	}
 
 	/**
@@ -192,9 +101,9 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 		/* Check if multisite, if so then save as site option */
 
 		if (is_multisite()) {
-			add_site_option(self::$version_setting_name, AUTHOR_NOTIFIER_VERSION_NUM);
+			add_site_option('author_notifier_version', AUTHOR_NOTIFIER_VERSION_NUM);
 		} else {
-			add_option(self::$version_setting_name, AUTHOR_NOTIFIER_VERSION_NUM);
+			add_option('author_notifier_version', AUTHOR_NOTIFIER_VERSION_NUM);
 		}
 	}
 
@@ -203,7 +112,7 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 	 *
 	 * @since 1.0.0
 	 */
-	 function author_notifier_send_email($new_status, $old_status, $post ) {
+	 function author_send_email($new_status, $old_status, $post ) {
 
 		slack("We're inside the send email function");
 		/**
@@ -214,8 +123,9 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 		// Default values
 
 		if ($settings === false) {
-			$settings = self::default_data();
+			$settings = default_data();
 		}
+		 $default_data = default_data();
 
 
 		$settings['message'] = array(
@@ -279,19 +189,19 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 			$share_links = "\r\n\r\nShare Links\r\n";
 
 			if ($settings['message']['share_links']['twitter']) {
-				$share_links .= "Twitter: " . esc_url(self::$twitter_share_link . $url) . "\r\n";
+				$share_links .= "Twitter: " . esc_url('https://twitter.com/intent/tweet?url=' . $url) . "\r\n";
 			}
 
 			if ($settings['message']['share_links']['facebook']) {
-				$share_links .= "Facebook: " . esc_url(self::$facebook_share_link . $url) . "\r\n";
+				$share_links .= "Facebook: " . esc_url('https://www.facebook.com/sharer/sharer.php?u=' . $url) . "\r\n";
 			}
 
 			if ($settings['message']['share_links']['google']) {
-				$share_links .= "Google+: " . esc_url(self::$google_share_link . $url) . "\r\n";
+				$share_links .= "Google+: " . esc_url('https://plus.google.com/share?url=' . $url) . "\r\n";
 			}
 
 			if ($settings['message']['share_links']['linkedin']) {
-				$share_links .= "LinkedIn: " . esc_url(self::$linkedin_share_link . $url) . "\r\n";
+				$share_links .= "LinkedIn: " . esc_url('https://www.linkedin.com/shareArticle?url=' . $url) . "\r\n";
 			}
 		}
 
@@ -305,8 +215,8 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 	    	$username = get_userdata($post->post_author);
 			$author_email = $username -> user_email;
 
-			$subject = self::parse_tags($post, $username, $settings['message']['subject_pending']);
-			$message = self::parse_tags($post, $username, $settings['message']['content_pending']);
+			$subject = parse_tags($post, $username, $settings['message']['subject_pending']);
+			$message = parse_tags($post, $username, $settings['message']['content_pending']);
 
 	    	$message .= "\r\n\r\n";
 			$message .= "Dear $username->display_name,"."\r\n";
@@ -333,7 +243,7 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 	    	if (isset($settings['publish_notify']) && $settings['publish_notify'] == 'author' && $old_status == 'pending' && user_can($post->post_author, 'edit_posts') && !user_can($post->post_author, 'publish_posts')) {
 
 				$username = get_userdata($post->post_author);
-				$subject = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published_contributor']);
+				$subject = parse_tags($post, get_userdata($post->post_author), $settings['message']['subject_published_contributor']);
 
 				$message .= "Dear $username->display_name,"."\r\n";
 				$message .= "Congratulations! Your article was reviewed by our staff and accepted! ";
@@ -341,7 +251,7 @@ add_action('init', array('AuthorNotifier', 'load_textdoamin'));
 				$message .= "ID: $post->ID \r\n";
 				$message .= "Title: $post->post_title \r\n";
 				$message .= "Abstract: $post->post_content \r\n\r\n";
-				$message = self::parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published_contributor']);
+				$message = parse_tags($post, get_userdata($post->post_author), $settings['message']['content_published_contributor']);
 				$message .= "This is an automatically generated email. Please do not respond to it directly. ";
 				$message .= "For questions regarding your submission, visit our contact page to get in touch with us. \r\n\r\n";
 				$message .= "Best regards, \r\n";
